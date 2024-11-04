@@ -1,7 +1,6 @@
 package com.example.todoapp
 
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.Date
 
@@ -38,8 +37,8 @@ class TodoItemsRepository {
         return this.listOfTodoItem
     }
 
-    fun addTodoItem(id: String, title: String, importance: Importance, deadline: Date?, isCompleted: Boolean, createdAt: Date, modifiedAt: Date?) {
-        val newItem = TodoItem(id, title, importance, deadline, isCompleted, createdAt, modifiedAt)
+    fun addTodoItem(item: TodoItem) {
+        val newItem = item
         listOfTodoItem.add(newItem)
     }
 
