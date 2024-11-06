@@ -1,6 +1,7 @@
 package com.example.todoapp
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,21 +28,37 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.todoapp.ui.theme.ToDoAppTheme
+import java.time.LocalDate
+import java.util.Date
 
 @Composable
 fun EditTodoItemScreen(
     modifier: Modifier = Modifier
 ) {
+    val idOfNewItem = TodoItemsRepository().getTodoItems().size + 1
+    var newTodoItem by remember {   mutableStateOf(TodoItem(
+        idOfNewItem.toString(),
+        "",
+        Importance.LOW,
+        deadline = null,
+        isCompleted = false,
+        createdAt = Date(),
+        modifiedAt = null
+        ))}
+
     Surface(
         color = MaterialTheme.colorScheme.primary,
         modifier = modifier
-        .fillMaxSize()) {
+        .fillMaxSize()
+    ) {
         Column {
             Row(
                 modifier = Modifier
@@ -59,7 +76,9 @@ fun EditTodoItemScreen(
                     )
                 }
                 TextButton(
-                    onClick = {}
+                    onClick = {
+                        TodoItemsRepository().addTodoItem(newTodoItem)
+                    }
                 ) {
                     Text(
                         text = "СОХРАНИТЬ",
@@ -68,8 +87,8 @@ fun EditTodoItemScreen(
                     )
                 }
             }
-            TextFieldTodo(modifier = Modifier.padding(horizontal = 8.dp))
-            ImportanceList()
+            TextFieldTodo(modifier = Modifier.padding(horizontal = 8.dp), newTodoItem)
+            ImportanceList(newTodoItem = newTodoItem)
         }
     }
 }
@@ -83,14 +102,16 @@ fun EditTodoItemScreenPreview() {
 }
 
 @Composable
-fun TextFieldTodo(modifier: Modifier = Modifier) {
+fun TextFieldTodo(modifier: Modifier = Modifier, newTodoItem: TodoItem) {
     var text by remember { mutableStateOf("") }
 
     TextField(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .onFocusChanged {  },
         onValueChange = { newText ->
             text = newText
+            newTodoItem.text = newText
         },
         placeholder = {Text("Что надо сделать...", color = MaterialTheme.colorScheme.tertiary)},
         value = text,
@@ -102,7 +123,7 @@ fun TextFieldTodo(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ImportanceList(modifier: Modifier = Modifier) {
+fun ImportanceList(modifier: Modifier = Modifier, newTodoItem: TodoItem) {
     var expanded by remember { mutableStateOf(false) }
     var selectedImportance by remember { mutableStateOf("нет") }
 
@@ -130,6 +151,7 @@ fun ImportanceList(modifier: Modifier = Modifier) {
                 text = { Text("Нет") },
                 onClick = {
                     selectedImportance = "нет"
+                    newTodoItem.importance = Importance.LOW
                     expanded = false
                 }
             )
@@ -138,12 +160,14 @@ fun ImportanceList(modifier: Modifier = Modifier) {
                 onClick = {
                     selectedImportance = "Низкий"
                     expanded = false
+                    newTodoItem.importance = Importance.SIMPLE
                 }
             )
             DropdownMenuItem(
                 text = { Text("Высокий", color = Color.Red) },
                 onClick = {
                     selectedImportance = "Высокий"
+                    newTodoItem.importance = Importance.HIGH
                     expanded = false
                 }
             )
