@@ -1,5 +1,6 @@
 package com.example.todoapp
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +10,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.todoapp.ui.theme.ToDoAppTheme
@@ -64,7 +69,7 @@ fun EditTodoItemScreen(
                 }
             }
             TextFieldTodo(modifier = Modifier.padding(horizontal = 8.dp))
-            
+            ImportanceList()
         }
     }
 }
@@ -96,3 +101,52 @@ fun TextFieldTodo(modifier: Modifier = Modifier) {
     )
 }
 
+@Composable
+fun ImportanceList(modifier: Modifier = Modifier) {
+    var expanded by remember { mutableStateOf(false) }
+    var selectedImportance by remember { mutableStateOf("нет") }
+
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+        TextButton(
+            onClick = {expanded = true}
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text(text = "Важность", fontSize = 16.sp, color = Color.Black)
+                Text(text = selectedImportance, fontSize = 14.sp,
+                    color = if (selectedImportance == "Высокий") Color.Red else MaterialTheme.colorScheme.tertiary
+                )
+            }
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.background(color = Color.White),
+            offset = DpOffset(x = 20.dp, y = 10.dp)
+        ) {
+            DropdownMenuItem(
+                text = { Text("Нет") },
+                onClick = {
+                    selectedImportance = "нет"
+                    expanded = false
+                }
+            )
+            DropdownMenuItem(
+                text = { Text("Низкий") },
+                onClick = {
+                    selectedImportance = "Низкий"
+                    expanded = false
+                }
+            )
+            DropdownMenuItem(
+                text = { Text("Высокий", color = Color.Red) },
+                onClick = {
+                    selectedImportance = "Высокий"
+                    expanded = false
+                }
+            )
+        }
+    }
+}
