@@ -81,7 +81,11 @@ fun ToDoItemUI(
                 maxLines = 3
             )
             Icon(
-                modifier = Modifier.padding(12.dp),
+                modifier = Modifier.padding(
+                    end = 24.dp,
+                    start = 16.dp,
+                    top = 12.dp
+                ),
                 imageVector = Icons.Default.Info,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.tertiary

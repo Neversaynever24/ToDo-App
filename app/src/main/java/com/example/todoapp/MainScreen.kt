@@ -43,7 +43,7 @@ fun MainScreen(
                    .clip(CircleShape),
                onClick = {},
                colors = IconButtonDefaults.iconButtonColors(
-                   containerColor = Color.Blue
+                   containerColor = Color(0xFF007AFF)
                ),
            ) {
                 Icon (
