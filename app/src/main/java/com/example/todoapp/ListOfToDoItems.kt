@@ -1,6 +1,8 @@
 package com.example.todoapp
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,10 +23,12 @@ fun ListOfToDoItems(
         modifier = modifier,
         shape = MaterialTheme.shapes.medium
     ){
-        LazyColumn  { items(TodoItemsRepository().getTodoItems()) { item ->
-            ToDoItemUI(item = item)
-        }
-        }
+        LazyColumn(
+            ) {
+                items(TodoItemsRepository().getTodoItems()) { item ->
+                    ToDoItemUI(item = item)
+                }
+            }
     }
 }
 
