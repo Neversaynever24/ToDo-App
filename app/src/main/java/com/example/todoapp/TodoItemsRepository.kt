@@ -7,7 +7,7 @@ import java.util.Date
 class TodoItemsRepository {
     private val listOfTodoItem = mutableListOf(
         TodoItem("0","Купить дом", Importance.HIGH, null, false, localDateToDate(LocalDate.of(2003, 3, 12)), null),
-        TodoItem("0","Купить дом", Importance.SIMPLE, null,true, localDateToDate(LocalDate.of(2003, 3, 12)), null),
+        TodoItem("0","Купить дом", Importance.SIMPLE, null,false, localDateToDate(LocalDate.of(2003, 3, 12)), null),
         TodoItem("0","Купить дом", Importance.SIMPLE, null,true, localDateToDate(LocalDate.of(2003, 3, 12)), null),
         TodoItem("0","Купить дом", Importance.SIMPLE, null,true, localDateToDate(LocalDate.of(2003, 3, 12)), null),
         TodoItem("0","Купить дом", Importance.SIMPLE, null,true, localDateToDate(LocalDate.of(2003, 3, 12)), null),
