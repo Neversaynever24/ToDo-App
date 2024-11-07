@@ -28,7 +28,8 @@ import com.example.todoapp.ui.theme.ToDoAppTheme
 
 @Composable
 fun MainScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    goToEditTodoItem: () -> Unit
 ) {
    Scaffold(
        modifier = modifier,
@@ -41,7 +42,9 @@ fun MainScreen(
                modifier = Modifier
                    .size(56.dp)
                    .clip(CircleShape),
-               onClick = {},
+               onClick = {
+                   goToEditTodoItem()
+               },
                colors = IconButtonDefaults.iconButtonColors(
                    containerColor = Color(0xFF007AFF)
                ),
@@ -66,12 +69,4 @@ fun MainScreen(
            }
        }
    )
-}
-
-@Preview
-@Composable
-fun MainScreenPreview() {
-    ToDoAppTheme {
-        MainScreen()
-    }
 }

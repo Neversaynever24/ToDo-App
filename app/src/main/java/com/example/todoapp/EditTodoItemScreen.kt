@@ -41,7 +41,8 @@ import java.util.Date
 
 @Composable
 fun EditTodoItemScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    goToMainScreen: () -> Unit
 ) {
     val idOfNewItem = TodoItemsRepository().getTodoItems().size + 1
     var newTodoItem by remember {   mutableStateOf(TodoItem(
@@ -67,7 +68,9 @@ fun EditTodoItemScreen(
                 horizontalArrangement = Arrangement.Absolute.SpaceBetween
             ) {
                 IconButton(
-                    onClick = {}
+                    onClick = {
+                        goToMainScreen()
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,
@@ -78,6 +81,7 @@ fun EditTodoItemScreen(
                 TextButton(
                     onClick = {
                         TodoItemsRepository().addTodoItem(newTodoItem)
+                        goToMainScreen()
                     }
                 ) {
                     Text(
@@ -93,13 +97,6 @@ fun EditTodoItemScreen(
     }
 }
 
-@Preview (showBackground = true)
-@Composable
-fun EditTodoItemScreenPreview() {
-    ToDoAppTheme {
-        EditTodoItemScreen()
-    }
-}
 
 @Composable
 fun TextFieldTodo(modifier: Modifier = Modifier, newTodoItem: TodoItem) {
